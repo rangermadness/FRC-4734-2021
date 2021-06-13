@@ -90,22 +90,20 @@ public class Robot extends TimedRobot {
   private static final int preShooterID = 11;
   private XboxController driverOne;
   private XboxController driverTwo;
-  boolean toggleOn = false;
-  boolean togglePressed = false;
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry tx = table.getEntry("tx");
+  // boolean toggleOn = false;
+  // boolean togglePressed = false;
+  // NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTable table;
+  NetworkTableEntry tx;
+  // NetworkTableEntry tx = table.getEntry("tx");
   private Pixy2 pixycam;
   boolean isCamera = false;
-  int state = -1;
+  // int state = -1;
   private double xcoord;
   private ArrayList<Block> blocks;
   private double limeLightX;
-  private String autoSelected;
+  // private String autoSelected;
 
-  /*
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Off Line", kDefaultAuto);
@@ -136,108 +134,19 @@ public class Robot extends TimedRobot {
     intoRobot.set(ControlMode.PercentOutput, 0);
     pixycam = Pixy2.createInstance(Pixy2.LinkType.SPI);
     pixycam.init();
+    table = NetworkTableInstance.getDefault().getTable("limelight");
+    tx = table.getEntry("tx");
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
     CameraServer.getInstance().startAutomaticCapture();
   }
 
-  /**
-   * This function is called every robot packet, no matter the mode. Use this for items like
-   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
   @Override
-  public void robotPeriodic() 
+  public void robotPeriodic() {}
+
+  @Override
+  public void autonomousInit() 
   {
-    // pixycam.getCCC().getBlocks(false, 255, 255);
-    // blocks = pixycam.getCCC().getBlockCache();
-    // if (blocks.size() > 0 )
-    // {
-    //   xcoord = blocks.get(0).getX();
-    //   SmartDashboard.putBoolean( "present" , true );
-    //   SmartDashboard.putNumber( "Xccord" ,xcoord);
-    // }
-    // else
-    // {
-    //   SmartDashboard.putBoolean( "present" , false );
-    // }
-    // Timer.delay(0.1);
-  }
-
-  @Override
-  public void autonomousInit() {
-    // myRobot.setSafetyEnabled(false);
-    // myRobot.tankDrive(0.0, 0.0);
-    // lowGoal.set(0.0);
-    // intoShooter.set(ControlMode.PercentOutput, 0.0);
-    // climb.set(ControlMode.PercentOutput, 0.0);
-    // intake.set(ControlMode.PercentOutput, 0.0);
-    // shooter.set(ControlMode.PercentOutput, 0.0);
-    // turret.set(ControlMode.PercentOutput, 0.0);
-    // preShooter.set(ControlMode.PercentOutput, 0.0);
-    // intoRobot.set(ControlMode.PercentOutput, 0.0);
-    // limelight();
-
-    // shooter.set(ControlMode.PercentOutput, 0.85);
-    // Timer.delay(1.3);
-    // preShooter.set(ControlMode.PercentOutput, -0.5);
-    // intoShooter.set(ControlMode.PercentOutput, 0.5);
-    // intoRobot.set(ControlMode.PercentOutput, -0.5);
-    // Timer.delay(1.5);
-    // shooter.set(ControlMode.PercentOutput, 0.0);
-    // preShooter.set(ControlMode.PercentOutput, 0.0);
-    // intoShooter.set(ControlMode.PercentOutput, 0.0);
-    // intoRobot.set(ControlMode.PercentOutput, 0.0);
-
-    // myRobot.tankDrive(0.6, 0.6);
-    // intake.set(ControlMode.PercentOutput, 0.75);
-    // intoRobot.set(ControlMode.PercentOutput, -0.75);
-    // intoShooter.set(ControlMode.PercentOutput, 0.65);
-    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
-    // Timer.delay(0.5);
-    // pixy();
-    // if(xcoord > 0)
-    //   myRobot.tankDrive(0.6, 0.6 - (xcoord / 400));
-    // else if(xcoord < 0)
-    //   myRobot.tankDrive(0.6 + (xcoord / 400), 0.6);
-    // Timer.delay(0.5);
-    // myRobot.tankDrive(0.6, 0.6);
-    // Timer.delay(1);
-    // Timer.delay(0.5);
-    // myRobot.tankDrive(0.6, 0.6);
-    // Timer.delay(.25);
-    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
-    // myRobot.tankDrive(0.0, 0.0);
-    // Timer.delay(0.5);
-    // intake.set(ControlMode.PercentOutput, 0.0);
-    // intoRobot.set(ControlMode.PercentOutput, 0.0);
-    // intoShooter.set(ControlMode.PercentOutput, 0.0);
-    // myRobot.tankDrive(-0.6, -0.6);
-    // Timer.delay(2.3);
-    // myRobot.tankDrive(0.0, 0.0);
-    // intoShooter.set(ControlMode.PercentOutput, -.5);
-    // Timer.delay(0.1);
-    // intoShooter.set(ControlMode.PercentOutput, 0.0);
-    // myRobot.tankDrive(-0.2, -0.2);
-    // Timer.delay(.15);
-    // myRobot.tankDrive(0.0, 0.0);
-
-    // limelight();
-    // shooter.set(ControlMode.PercentOutput, 0.85);
-    // Timer.delay(1.3);
-    // preShooter.set(ControlMode.PercentOutput, -0.5);
-    // intoShooter.set(ControlMode.PercentOutput, 0.5);
-    // intoRobot.set(ControlMode.PercentOutput, -0.5);
-    // Timer.delay(1.5);
-    // shooter.set(ControlMode.PercentOutput, 0.0);
-    // preShooter.set(ControlMode.PercentOutput, 0.0);
-    // intoShooter.set(ControlMode.PercentOutput, 0.0);
-    // intoRobot.set(ControlMode.PercentOutput, 0.0);
-    // myRobot.setSafetyEnabled(true);
-
     m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     switch (m_autoSelected)
     {
       case kCustomAuto:
@@ -351,22 +260,12 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    //switch (m_autoSelected) {
-      //case kCustomAuto:
-        // Put custom auto code here
-        //break;
-      //case kDefaultAuto:
-      //default:
-        // Put default auto code here
-        //break;
-    //}
-  }
+  public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {
+  public void teleopInit()
+  {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
     myRobot.tankDrive(0.0, 0.0);
     intoShooter.set(ControlMode.PercentOutput, 0);
@@ -395,13 +294,8 @@ public class Robot extends TimedRobot {
       lowGoal.set(.5);
     else
       lowGoal.set(0.0);
-    // if(driverTwo.getRawButton(6))
-    //   shoot(0.825);
     if(driverOne.getRawButton(6))
       shoot(0.8);
-    // if(driverOne.getRawButton())
-    //   shoot(0.85);
-    // pixy();
   }
 
   public void sparkmax(XboxController c, int bf, int bb, CANSparkMax m, double s)
@@ -449,15 +343,6 @@ public class Robot extends TimedRobot {
     preShooter.set(ControlMode.PercentOutput, 0.0);
     intoRobot.set(ControlMode.PercentOutput, 0.0);
 
-    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
-    // Timer.delay(.3);
-    // limeLightX = tx.getDouble(0.0);
-    // while(limeLightX > 8 || limeLightX < 1)
-    // {
-    //   limeLightX = tx.getDouble(0.0);
-    //   turret.set(ControlMode.PercentOutput, (limeLightX - 7.5)/40);
-    // }
-    // turret.set(ControlMode.PercentOutput, 0);
     limelight();
 
     shooter.set(ControlMode.PercentOutput, pow);
@@ -522,13 +407,8 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   @Override
-  public void testInit()
-  {
-  }
+  public void testInit(){}
 
   @Override
-  public void testPeriodic()
-  {
-    pixy();
-  }
+  public void testPeriodic(){}
 }
